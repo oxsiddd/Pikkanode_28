@@ -1,0 +1,16 @@
+{
+  "name": "Pikkanode_28",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/oxsiddd/Pikkanode_28.git",
+  "author": "blackdot <blackdot@github.com>",
+  "license": "MIT",
+  "dependencies": {
+    "koa": "^2.5.1",
+    "koa-body": "^4.0.3",
+    "koa-ejs": "^4.1.1",
+    "koa-router": "^7.4.0",
+    "koa-static": "^4.0.3",
+    "mysql2": "^1.5.3"
+  }
+}
