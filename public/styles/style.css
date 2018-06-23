@@ -1,0 +1,8 @@
+.form-control {
+    border: 1px solid #fff !important;
+    border-bottom: 1px solid #ddd !important;
+    border-radius: 0px !important;
+}
+img {
+    width: 100%;
+}
