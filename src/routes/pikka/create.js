@@ -25,11 +25,11 @@ const postHandler = async (ctx) => {
       throw new Error('file type not allow')
     }
     // form datas
-    console.log(ctx.request.body.caption)
-    console.log(ctx.request.body.detail)
+    // console.log(ctx.request.body.caption)
+    // console.log(ctx.request.body.detail)
     // file datas
-    console.log(ctx.request.files.photo.name)
-    console.log(ctx.request.files.photo.path)
+    // console.log(ctx.request.files.photo.name)
+    // console.log(ctx.request.files.photo.path)
     const fileName = uuidv4() // generate uuid for file name
     // move uploaded file from temp dir to destination
     const rand = 1

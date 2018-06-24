@@ -9,10 +9,19 @@ const like = require('./like')
 
 const router = new Router()
 
+const checkAuth = async (ctx, next) => {
+    if (!ctx.session || !ctx.session.userId) {
+        ctx.body = 'you are not signed in'
+        return ctx.redirect('/signin')
+    }
+    await next()
+}
+
+
 router.get('/create', create.getHandler)
 // router.post('/create', create.postHandler)
 router.post('/create', koaBody({ multipart: true }), create.postHandler)
-router.get('/', home.getHandler)
+router.get('/', checkAuth, home.getHandler)
 router.post('/', home.postHandler)
 router.get('/pikka/:id', detail.getHandler)
 router.post('/pikka/:id/comment', comment.postHandler)

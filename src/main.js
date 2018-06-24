@@ -1,9 +1,10 @@
 const Koa = require('koa')
-const koaBody = require('koa-body')
+// const koaBody = require('koa-body')
 const serve = require('koa-static')
 const path = require('path')
 const render = require('koa-ejs')
 const cors = require('@koa/cors')
+const session = require('koa-session')
 
 const app = new Koa()
 
@@ -24,9 +25,36 @@ render(app, {
     cache: false
 })
 
-app.use(cors())
-   
-app.use(koaBody({ maltipart: true }))
+const sessionStore = {}
+const sessionConfig = {
+    key: 'sess',
+    maxAge: 1000 * 60 * 60,
+    httpOnly: true,
+    store: {
+        get (key, maxAge, { rolling }) {
+            return sessionStore[key]
+        },
+        set (key, sess, maxAge, { rolling }) {
+            sessionStore[key] = sess
+        },
+        destroy (key) {
+            delete sessionStorage[key]
+        }
+    }
+}
+
+const flash = async (ctx, next) => { // Flash middleware
+    if (!ctx.session) throw new Error('flash message required session')
+    ctx.flash = ctx.session.flash
+    delete ctx.session.flash
+    await next()
+}
+
+
+app.use(cors()) 
+app.keys = ['supersecret']
+app.use(session(sessionConfig, app))
+app.use(flash) 
 app.use(require('./routes'))
 app.use(stripPrefix)
 app.use(serve(path.join(process.cwd(), 'public')))

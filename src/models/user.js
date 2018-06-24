@@ -11,6 +11,19 @@ const register = async (email, password) => {
 	// ????
 	return 1
 }
+const login = async (email) => {
+	const [rows] = await pool.query(`
+		select
+			email, password
+		from
+			users
+		where
+			email = ?
+	`, [ email ])
+
+	// ????
+	return rows
+}
 const upload = async (filename, caption, rand) => {
 	const result = await pool.query(`
 		insert into pictures
@@ -33,6 +46,7 @@ const showData = async (pool) => {
 
 module.exports = {
 	register,
+	login,
 	upload,
 	showData
 }
