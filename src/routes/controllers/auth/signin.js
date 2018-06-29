@@ -1,12 +1,13 @@
 const bcrypt = require('bcrypt')
 // const session = require('koa-session')
-const { user } = require('../../models')
+const { user } = require('../../../models')
 
 const getHandler = async (ctx, next) => {
     let data = {
         title: 'Sign In',
         text: 'Sign in',
-        flash: ctx.flash
+        flash: ctx.flash,
+        session: ctx.session.userId
     }
     await ctx.render('signin', data)
     await next()
@@ -15,25 +16,22 @@ const getHandler = async (ctx, next) => {
 const postHandler = async (ctx) => {
     let signInEmail = ctx.request.body.email
     let signInPassword = ctx.request.body.password
-
+    //console.log(signInEmail)
     const getMail = await user.login(signInEmail)
-    console.log(getMail)
-    if(getMail === []){
-        ctx.session.flash = { error: 'username not found' }
-        return ctx.redirect('/signin')
-    }
+    //console.log(getMail)
 
-    let dbEmail = getMail[0].email
-    let dbPassword = getMail[0].password
-    const checkPassword = await bcrypt.compare(signInPassword, dbPassword)
-    console.log('e-mail: ', dbEmail)
-    console.log('password: ', dbPassword)
-        
-    if(signInEmail !== dbEmail){
+    if(getMail.length < 1){
         console.log('unknow user')
         ctx.session.flash = { error: 'username invalid' }
         return ctx.redirect('/signin')
-    }else if(!checkPassword){
+    }
+    let dbEmail = getMail[0].email
+    let dbPassword = getMail[0].password
+    const checkPassword = await bcrypt.compare(signInPassword, dbPassword)
+    // console.log('e-mail: ', dbEmail)
+    // console.log('password: ', dbPassword)
+
+    if(!checkPassword){
         console.log('password incorrect')
         ctx.session.flash = { error: 'password invalid' }
         return ctx.redirect('/signin')

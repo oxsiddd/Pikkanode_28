@@ -3,6 +3,9 @@
         <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5 mx-auto">
             <div class="jumbotron shadow p-5 mb-5 bg-white rounded mt-5 mb-5">
                 <h3 class="mb-4"><%- text %></h3>
+                <% if (flash && flash.error) { %>
+                    <p style="font-size: 0.85em; color: red;"><%= flash.error %></p>
+                <% } %>
                 <form method="POST">
                     <div class="form-group">
                         <input class="form-control" name="email" placeholder="e-mail">

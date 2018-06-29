@@ -1,10 +1,12 @@
 const bcrypt = require('bcrypt')
-const { user } = require('../../models') 
+const { user } = require('../../../models') 
 
 const getHandler = async (ctx, next) => {
     let data = {
         title: 'Sign up',
-        text: 'Sign up'
+        text: 'Sign up',
+        flash: ctx.flash,
+        session: ctx.session.userId
     }
     await ctx.render('signup', data)
     await next()
@@ -17,6 +19,7 @@ const postHandler = async (ctx) => {
     const checkPassword = await bcrypt.compare(rePassword, hashedPassword)
     if(!checkPassword){
         console.log('wrong password')
+        ctx.session.flash = { error: 'password not same!' }
         return ctx.redirect('/signup')
     } 
         console.log('password correct')

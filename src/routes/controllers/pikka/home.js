@@ -1,5 +1,5 @@
-const { user } = require('../../models')
-const pool = require('../../db/connect')
+const { user } = require('../../../models')
+const pool = require('../../../db/connect')
 
 const getHandler = async (ctx, next) => {
     const showObject = await user.showData(pool)
@@ -8,7 +8,9 @@ const getHandler = async (ctx, next) => {
         title: 'Pikkanode',
         text: 'Pikkanode',
         key: keyShowData,
-        data: showObject
+        data: showObject,
+        user: '',
+        session: ctx.session.userId
     }
     // console.log(showObject)
     // console.log(keyShowData)

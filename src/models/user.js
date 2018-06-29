@@ -21,7 +21,7 @@ const login = async (email) => {
 			email = ?
 	`, [ email ])
 
-	// ????
+	console.log(rows)
 	return rows
 }
 const upload = async (filename, caption, rand) => {
