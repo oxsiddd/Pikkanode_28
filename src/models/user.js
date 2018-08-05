@@ -1,7 +1,7 @@
 const pool = require('../db/connect')
 
 const register = async (email, password) => {
-	const result = await pool.query(`
+	const [result] = await pool.query(`
 		insert into users
 			(email, password)
 		values
@@ -9,12 +9,12 @@ const register = async (email, password) => {
 	`, [ email, password ])
 
 	// ????
-	return 1
+	return result
 }
 const login = async (email) => {
 	const [rows] = await pool.query(`
 		select
-			email, password
+			id, email, password
 		from
 			users
 		where
@@ -24,6 +24,32 @@ const login = async (email) => {
 	console.log(rows)
 	return rows
 }
+
+const registerFacebook = async (id, name) => {
+	const result = await pool.query(`
+		insert into facebook_users
+			(facebook_user_id, name)
+		values
+			(?, ?)
+	`, [ id, name])
+
+	// ????
+	return result[0].facebook_user_id
+}
+const loginFacebook = async (id) => {
+	const [rows] = await pool.query(`
+		select
+			facebook_user_id, name
+		from
+			facebook_users
+		where
+			facebook_user_id = ?
+	`, [ id ])
+
+	console.log(rows)
+	return rows
+}
+
 const upload = async (filename, caption, rand) => {
 	const result = await pool.query(`
 		insert into pictures
@@ -33,7 +59,7 @@ const upload = async (filename, caption, rand) => {
 	`, [ filename, caption, rand ])
 
 	// ????
-	return 1
+	return result[0].id
 }
 
 const showData = async (pool) => {

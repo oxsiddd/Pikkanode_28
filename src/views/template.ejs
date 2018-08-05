@@ -8,6 +8,89 @@
     <link rel="stylesheet" href="/-/styles/style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+    <script>
+        window.fbAsyncInit = function() {
+            FB.init({
+            appId      : '2106802706014399',
+            cookie     : true,
+            xfbml      : true,
+            version    : 'v3.0'
+            });
+            
+            FB.AppEvents.logPageView();
+            // checkLoginState();
+            // FB.Event.subscribe('auth.login', checkLoginState)
+                
+        };
+
+        (function(d, s, id){
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {return;}
+            js = d.createElement(s); js.id = id;
+            js.src = "https://connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+
+
+        function checkLoginState() {
+                FB.getLoginStatus( response => {
+                    if (response.status == 'connected') {
+                        FB.api('/me', {locale: 'en_US', fields: 'id, name'}, response => {
+                            form = document.createElement('form')
+                            form.method = 'post'
+                            form.action = '/signin'
+                            let FB_requestSignUp = {
+                                fb_id: response.id,
+                                name: response.name,
+                            }   
+                            for (let item in FB_requestSignUp) {
+                                input = document.createElement('input')
+                                input.setAttribute('name', item)
+                                input.setAttribute('value', FB_requestSignUp[item])
+                                input.setAttributen('type', 'hidden')
+                                form.appendChild(input)
+                            }
+                            form.appendChild(input)
+                            document.body.appendChild(form)
+                            form.submit()
+                        })
+                        console.log(response)
+                    } else {
+                        console.log('Disconnect from Facebook')
+                    }
+                }) 
+            }
+
+            // function connectFB() {
+            //     FB.getLoginStatus( response => {
+            //         if (response.status == 'connected') {
+            //             FB.api('/me', {locale: 'en_US', fields: 'id, first_name, last_name, email'}, response => {
+            //                 form = document.createElement('form')
+            //                 form.method = 'post'
+            //                 form.action = '/setting/updateProfile'
+            //                 let FB_requestSignUp = {
+            //                     fb_id: response.id,
+            //                     firstName: response.first_name,
+            //                     lastName: response.last_name,
+            //                     email: response.email
+            //                 }   
+            //                 for (let item in FB_requestSignUp) {
+            //                     input = document.createElement('input')
+            //                     input.setAttribute('name', item)
+            //                     input.setAttribute('value', FB_requestSignUp[item])
+            //                     input.setAttribute('type', 'hidden')
+            //                     form.appendChild(input)
+            //                 }
+            //                 form.appendChild(input)
+            //                 document.body.appendChild(form)
+            //                 form.submit()
+            //             })
+            //         } else {
+            //             console.log('Disconnect from Facebook')
+            //         }
+            //     }) 
+            // }
+    </script>
 </head>
 <body>
     <%- include navbar %>

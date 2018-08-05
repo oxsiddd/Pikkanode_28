@@ -17,9 +17,10 @@ const postHandler = async (ctx) => {
     let signInEmail = ctx.request.body.email
     let signInPassword = ctx.request.body.password
     //console.log(signInEmail)
+    let {fb_id, name} = ctx.request.body
+    console.log(name)
     const getMail = await user.login(signInEmail)
     //console.log(getMail)
-
     if(getMail.length < 1){
         console.log('unknow user')
         ctx.session.flash = { error: 'username invalid' }

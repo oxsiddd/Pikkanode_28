@@ -2,6 +2,7 @@ const Router = require('koa-router')
 
 const router = new Router()
 
-router.use('/v1', require('./v1'))
+router.use('/auth', require('./auth'))
+router.use('/pikka', require('./pikka'))
 
 module.exports = router.routes()

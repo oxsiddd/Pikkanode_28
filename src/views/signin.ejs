@@ -12,7 +12,11 @@
                         <br>
                         <input class="form-control" name="password" type="password" placeholder="password" required>
                     </div>
-                    <button class="btn btn-outline-primary mt-3">sign in</button>
+                    <button class="btn btn-outline-primary btn-block mt-4 mb-4">sign in</button>
+                </form>
+                <h6 class="text-center">or</h6>
+                <form>
+                    <button class="btn btn-primary btn-block mt-4 mb-4" onclick="FB.login(checkLoginState)">sign in with facebook</button>
                 </form>
             </div>
         </div>

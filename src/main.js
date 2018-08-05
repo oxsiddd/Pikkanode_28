@@ -51,7 +51,9 @@ const flash = async (ctx, next) => { // Flash middleware
 }
 
 
-app.use(cors()) 
+app.use(cors({
+    credentials: true
+})) 
 app.keys = ['supersecret']
 app.use(session(sessionConfig, app))
 app.use(flash) 
